@@ -12,36 +12,36 @@
 <?php
 
 
-    if(!empty($_POST['songid'])){
-        $songid=$_POST['songid'];
+if (!empty($_POST['songid'])) {
+    $songid = $_POST['songid'];
 
-        //DB接続
-        require_once 'DbManager.php';
-        $pdo = getDb();
+    //DB接続
+    require_once 'DbManager.php';
+    $pdo = getDb();
 
-        //XSS
-        require_once 'common.php';
+    //XSS
+    require_once 'common.php';
 
-        //表示情報取得
-        $sql=$pdo->prepare('select * from music where song_id=?');
-        $sql->execute([$songid]);
-        foreach ($sql as $row){
-            $songname=$row['song_name'];
-            $singer=$row['singer'];
-        }
-    }else{
-        require_once 'ng.php';
+    //表示情報取得
+    $sql = $pdo->prepare('select * from music where song_id=?');
+    $sql->execute([$songid]);
+    foreach ($sql as $row) {
+        $songname = $row['song_name'];
+        $singer = $row['singer'];
     }
+} else {
+    require_once 'ng.php';
+}
 
 //フォーム作成
 echo '<form action="CRUDbak-updateFix.php" method="post">';
 //HTML部品表示
-echo '<input type="hidden" name="songno" value="',h($songid),'">'; //hiddonで送る
+echo '<input type="hidden" name="songno" value="', h($songid), '">'; //hiddonで送る
 echo '曲名：';
-echo '<input type="text" name="songname" value="',h($songname),'">';
+echo '<input type="text" name="songname" value="', h($songname), '">';
 echo '<br>';
 echo '歌手名：';
-echo '<input type="text" name="singer" value="',h($singer),'">';
+echo '<input type="text" name="singer" value="', h($singer), '">';
 echo '<br>';
 echo '<button type="submit" name="update">更新</button>';
 echo '</form>';
